@@ -93,3 +93,35 @@ body {
   }
 }
 
+.flex-vertical {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-horizontal {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-right {
+  animation: scroll 1s linear infinite;
+}
+
+.animate-scroll-left {
+  animation: scroll 1s linear infinite reverse;
+}
