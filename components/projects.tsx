@@ -1,127 +1,170 @@
 "use client"
-
+import Image from "next/image"
+import Slider from "react-slick"
 import { motion } from "framer-motion"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { ShoppingCart, Smartphone, Globe, ChevronLeft, ChevronRight } from "lucide-react"
-import { useApp } from "@/lib/context/AppContext"
-import useEmblaCarousel from "embla-carousel-react"
-import { useCallback, useEffect, useState } from "react"
+import { Card, CardContent } from "@/components/ui/card"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
-export default function Projects() {
-  const { t } = useApp()
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: false, align: "start" })
-  const [prevBtnEnabled, setPrevBtnEnabled] = useState(false)
-  const [nextBtnEnabled, setNextBtnEnabled] = useState(false)
-
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return
-    setPrevBtnEnabled(emblaApi.canScrollPrev())
-    setNextBtnEnabled(emblaApi.canScrollNext())
-  }, [emblaApi])
-
-  useEffect(() => {
-    if (!emblaApi) return
-    onSelect()
-    emblaApi.on("select", onSelect)
-  }, [emblaApi, onSelect])
-
+const Projects = () => {
   const projects = [
     {
-      title: t("projects.ecommerce"),
-      description: t("projects.ecommerce.desc"),
-      icon: <ShoppingCart className="h-10 w-10 text-primary" />,
+      title: "E-Commerce Platform",
+      description: "A convenient and secure platform for online sales.",
       image: "/images/img11-Dox-pLmG.png",
-      color: "bg-blue-500/10",
     },
     {
-      title: t("projects.mobile"),
-      description: t("projects.mobile.desc"),
-      icon: <Smartphone className="h-10 w-10 text-primary" />,
-      image:
-        "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      color: "bg-emerald-500/10",
+      title: "Mobile Application",
+      description: "Intuitive and interactive mobile applications for users.",
+      image: "/placeholder.svg?height=300&width=400",
     },
     {
-      title: t("projects.web"),
-      description: t("projects.web.desc"),
-      icon: <Globe className="h-10 w-10 text-primary" />,
-      image:
-        "https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2340&q=80",
-      color: "bg-amber-500/10",
+      title: "Web Development",
+      description: "Creation and development of modern and functional websites.",
+      image: "/placeholder.svg?height=300&width=400",
+    },
+    {
+      title: "UI/UX Design",
+      description: "Intuitive user interface designs for enhanced user experiences.",
+      image: "/placeholder.svg?height=300&width=400",
+    },
+    {
+      title: "AI Integration",
+      description: "Smart AI-powered solutions to automate and optimize processes.",
+      image: "/placeholder.svg?height=300&width=400",
+    },
+    {
+      title: "Cloud Services",
+      description: "Scalable cloud infrastructure for robust and flexible applications.",
+      image: "/placeholder.svg?height=300&width=400",
     },
   ]
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+    dotsClass: "slick-dots custom-dots",
+    customPaging: () => <div className="w-3 h-3 mx-1 rounded-full bg-primary/30 hover:bg-primary transition-colors" />,
+  }
+
   return (
-    <section id="projects" className="section-container relative">
+    <section id="projects" className="section-container bg-muted/50">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
-        className="max-w-6xl mx-auto"
       >
-        <h2 className="section-title">{t("projects.title")}</h2>
-        <p className="section-subtitle">{t("projects.description")}</p>
+        <h2 className="section-title">Projects</h2>
+        <p className="section-subtitle">Among our implemented projects are the following.</p>
 
-        <div className="relative">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex">
-              {projects.map((project, index) => (
-                <div key={index} className="flex-[0_0_100%] min-w-0 sm:flex-[0_0_50%] lg:flex-[0_0_33.33%] pl-4">
-                  <Card
-                    className={`h-full overflow-hidden hover:shadow-lg transition-shadow border-t-4 border-t-primary ${project.color}`}
-                  >
-                    <div className="aspect-video overflow-hidden">
-                      <img
+        <div className="max-w-6xl mx-auto px-4 mt-12">
+          <Slider {...settings} className="featured-carousel -mx-2">
+            {projects.map((project, index) => (
+              <motion.div
+                key={index}
+                className="px-2"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <Card className="h-[400px] overflow-hidden border-t-4 border-t-primary hover:shadow-lg transition-all duration-300">
+                  <CardContent className="p-0 flex flex-col h-full">
+                    <div className="relative h-48 w-full overflow-hidden">
+                      <Image
                         src={project.image || "/placeholder.svg"}
                         alt={project.title}
-                        className="w-full h-full object-cover transition-transform hover:scale-105 duration-300"
+                        layout="fill"
+                        objectFit="cover"
+                        className="transition-transform duration-300 hover:scale-105"
                       />
-                    </div>
-                    <CardHeader>
-                      <div className="flex items-center gap-2">
-                        {project.icon}
-                        <CardTitle>{project.title}</CardTitle>
+                      <div className="absolute inset-0 bg-primary/50 flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
+                        <span className="text-white text-2xl font-bold">+</span>
                       </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="line-clamp-3">{project.description}</p>
-                    </CardContent>
-                    <CardFooter>
-                      <Button variant="outline" className="w-full">
-                        {t("projects.details")}
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </div>
-              ))}
-            </div>
-          </div>
-          <Button
-            variant="outline"
-            size="icon"
-            className={`absolute top-1/2 -translate-y-1/2 left-2 z-10 rounded-full ${!prevBtnEnabled ? "opacity-50 cursor-not-allowed" : ""}`}
-            onClick={scrollPrev}
-            disabled={!prevBtnEnabled}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className={`absolute top-1/2 -translate-y-1/2 right-2 z-10 rounded-full ${!nextBtnEnabled ? "opacity-50 cursor-not-allowed" : ""}`}
-            onClick={scrollNext}
-            disabled={!nextBtnEnabled}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
+                    </div>
+                    <div className="p-5 flex-grow flex flex-col">
+                      <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
+                      <p className="text-sm text-muted-foreground flex-grow overflow-hidden">{project.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </Slider>
         </div>
       </motion.div>
+
+      <style jsx global>{`
+        .slick-list, .slick-track {
+          display: flex !important;
+        }
+        .slick-slide {
+          height: auto !important;
+        }
+        .slick-slide > div {
+          height: 100%;
+        }
+        .slick-prev, .slick-next {
+          width: 40px;
+          height: 40px;
+          background-color: hsl(var(--primary));
+          border-radius: 50%;
+          z-index: 10;
+        }
+        .slick-prev {
+          left: -5px;
+        }
+        .slick-next {
+          right: -5px;
+        }
+        .slick-prev:hover, .slick-next:hover {
+          background-color: hsl(var(--primary));
+          opacity: 0.8;
+        }
+        .slick-prev:before, .slick-next:before {
+          font-size: 20px;
+          opacity: 1;
+        }
+        .slick-dots {
+          bottom: -40px;
+        }
+        .dark .slick-track {
+          margin-left: 0;
+        }
+        @media (max-width: 640px) {
+          .slick-prev {
+            left: 0;
+          }
+          .slick-next {
+            right: 0;
+          }
+        }
+      `}</style>
     </section>
   )
 }
+
+export default Projects
 
