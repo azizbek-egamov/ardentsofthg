@@ -6,6 +6,10 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { AppProvider } from "@/lib/context/AppContext"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import 'owl.carousel/dist/assets/owl.carousel.css';
+import 'owl.carousel/dist/assets/owl.theme.default.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const inter = Inter({ subsets: ["latin", "cyrillic"] })
 
