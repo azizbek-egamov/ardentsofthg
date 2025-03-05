@@ -1,32 +1,23 @@
 "use client"
 
+import React from "react"
 import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
 import { useApp } from "@/lib/context/AppContext"
+import Image from "next/image"
 
-export default function Partners() {
+const Partners = () => {
   const { t } = useApp()
 
   const partners = [
-    {
-      name: "Kompaniya A",
-      logo: "https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80",
-      description: "Biz bilan birgalikda muvaffaqiyatli loyihalar amalga oshirilgan.",
-    },
-    {
-      name: "Kompaniya B",
-      logo: "https://images.unsplash.com/photo-1611262588024-d12430b98920?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description: "Innovatsion yechimlar yaratishda hamkorlik qilgan.",
-    },
-    {
-      name: "Kompaniya C",
-      logo: "https://images.unsplash.com/photo-1637592156979-95f44c286423?q=80&w=1513&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      description: "Bizning xizmatlarimizdan foydalanib, o'z bizneslarini rivojlantirgan.",
-    },
+    { name: "Company A", logo: "https://i.ibb.co/q5XDptD/client-logo-1.png" },
+    { name: "Company B", logo: "https://i.ibb.co/LSmZvJD/client-logo-4.png" },
+    { name: "Company C", logo: "https://i.ibb.co/pK9KdhT/client-logo-5.png" },
+    { name: "Company D", logo: "https://i.ibb.co/Q6PRFPg/client-logo-3.png" },
+    // Add more partners as needed
   ]
 
   return (
-    <section id="partners" className="section-container bg-muted/50">
+    <section id="partners" className="section-container bg-muted/50 overflow-hidden py-16">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -36,29 +27,150 @@ export default function Partners() {
         <h2 className="section-title">{t("partners.title")}</h2>
         <p className="section-subtitle">{t("partners.description")}</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {partners.map((partner, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <Card className="hover:shadow-md transition-shadow h-full">
-                <CardContent className="p-6 flex flex-col items-center justify-center">
-                  <div className="mb-6 p-4 rounded-lg overflow-hidden">
-                    <img src={partner.logo || "/placeholder.svg"} alt={partner.name} className="h-20 object-contain" />
+        <div className="container flex-vertical mt-12">
+          <div className="flex-horizontal">
+            <div className="spacer-60"></div>
+            <div className="flex-vertical">
+              <div className="marquee-horizontal-large">
+                <div className="track-horizontal">
+                  <div className="flex-horizontal">
+                    {[...partners, ...partners].map((partner, index) => (
+                      <React.Fragment key={index}>
+                        <div className="icon-container-alt">
+                          <Image
+                            src={partner.logo || "/placeholder.svg"}
+                            alt={partner.name}
+                            width={150}
+                            height={90}
+                            className="icon"
+                          />
+                        </div>
+                        <div className="spacer-30"></div>
+                      </React.Fragment>
+                    ))}
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{partner.name}</h3>
-                  <p className="text-center text-muted-foreground">{partner.description}</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+                </div>
+              </div>
+              <div className="marquee-horizontal-large">
+                <div className="track-horizontal-alt">
+                  <div className="flex-horizontal">
+                    {[...partners, ...partners].reverse().map((partner, index) => (
+                      <React.Fragment key={index}>
+                        <div className="icon-container-alt">
+                          <Image
+                            src={partner.logo || "/placeholder.svg"}
+                            alt={partner.name}
+                            width={150}
+                            height={90}
+                            className="icon"
+                          />
+                        </div>
+                        <div className="spacer-30"></div>
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </motion.div>
+
+      <style jsx>{`
+        .container {
+          width: 90%;
+          max-width: 1400px;
+          margin-right: auto;
+          margin-left: auto;
+          padding-right: 60px;
+          padding-left: 60px;
+        }
+        .flex-vertical {
+          display: flex;
+          width: 100%;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .flex-horizontal {
+          display: flex;
+          width: 100%;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
+        .spacer-60 {
+          width: 60px;
+          height: 60px;
+        }
+        .spacer-30 {
+          width: 30px;
+          height: 30px;
+        }
+        .marquee-horizontal-large {
+          position: relative;
+          z-index: 200;
+          display: flex;
+          overflow: hidden;
+          width: 100%;
+          height: 190px;
+          justify-content: flex-start;
+          align-items: center;
+          flex: 0 0 auto;
+        }
+        .track-horizontal {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          position: absolute;
+          white-space: nowrap;
+          will-change: transform;
+          animation: marquee-horizontal 20s linear infinite;
+        }
+        .track-horizontal-alt {
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          position: absolute;
+          white-space: nowrap;
+          will-change: transform;
+          animation: marquee-horizontal-alt 20s linear infinite;
+        }
+        .icon-container-alt {
+          display: flex;
+          width: 250px;
+          height: 150px;
+          padding-right: 30px;
+          padding-left: 30px;
+          justify-content: center;
+          align-items: center;
+          flex: 0 0 auto;
+          border-radius: 8px;
+          border: 1px solid #eaeaea;
+          background-color: #ffffff;
+        }
+        .marquee-cover-horizontal {
+          position: absolute;
+          left: 0%;
+          top: 0%;
+          right: 0%;
+          bottom: 0%;
+          z-index: 10;
+          background-image: linear-gradient(270deg, hsla(var(--background) / 0) 70%, hsl(var(--background))),
+            linear-gradient(270deg, hsl(var(--background)), hsla(var(--background) / 0) 30%);
+        }
+        @keyframes marquee-horizontal {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        @keyframes marquee-horizontal-alt {
+          from { transform: translateX(-50%); }
+          to { transform: translateX(0); }
+        }
+      `}</style>
     </section>
   )
 }
+
+export default Partners
 
